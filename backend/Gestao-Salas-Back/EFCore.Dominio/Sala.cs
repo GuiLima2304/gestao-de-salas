@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Gestao_Salas_Back.Models
+namespace EFCore.Dominio
 {
     public class Sala
     {
@@ -11,5 +11,8 @@ namespace Gestao_Salas_Back.Models
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public bool Status { get; set; }
+        public List<Agendamento> Agendamentos { get; set; }
     }
+
+    //OBS: Um agendamento contem apenas uma sala, mas uma sala pode conter muitos agendamentos
 }

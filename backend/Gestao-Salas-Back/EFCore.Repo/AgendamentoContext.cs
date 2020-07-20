@@ -1,14 +1,16 @@
-﻿using Gestao_Salas_Back.Models;
+﻿using EFCore.Dominio;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Gestao_Salas_Back.Data
+namespace EFCore.Repo
 {
     public class AgendamentoContext : DbContext
     {
+        //Referencia
+        public AgendamentoContext(DbContextOptions<AgendamentoContext> options) : base(options) {}
     
         //Nome no plural para identificar que é uma lista
         public DbSet<Agendamento> Agendamentos { get; set; }
@@ -17,7 +19,6 @@ namespace Gestao_Salas_Back.Data
         //Conexao com o banco
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Password=sasqlserver123;Persist Security Info=True;User ID=sa;Initial Catalog=GestaoSalas;Data Source=DESKTOP-0CNQA9F");
         }
     }
 }
