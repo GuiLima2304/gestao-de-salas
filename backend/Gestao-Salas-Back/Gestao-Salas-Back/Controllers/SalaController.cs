@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EFCore.Dominio;
+using EFCore.Dominio.Entities;
 using EFCore.Repo;
+using Gestao_Salas_Back.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gestao_Salas_Back.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
-    public class SalaController : Controller
+    public class SalaController : BaseController
     {
 
         public readonly AgendamentoContext _context;

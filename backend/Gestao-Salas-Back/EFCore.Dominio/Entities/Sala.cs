@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EFCore.Dominio
+namespace EFCore.Dominio.Entities
 {
     public class Sala
     {
@@ -11,7 +11,7 @@ namespace EFCore.Dominio
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public bool Status { get; set; }
-        public List<Agendamento> Agendamentos { get; set; }
+        public virtual IEnumerable<Agendamento> Agendamentos { get; set; }
     }
 
     //OBS: Um agendamento contem apenas uma sala, mas uma sala pode conter muitos agendamentos

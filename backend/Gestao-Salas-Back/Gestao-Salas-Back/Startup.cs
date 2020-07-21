@@ -2,7 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EFCore.Dominio;
 using EFCore.Repo;
+using EFCore.Repo.Repositories;
+using GestaoSalas.Application.Interfaces;
+using GestaoSalas.Application.Interfaces.Repositories;
+using GestaoSalas.Application.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,7 +35,16 @@ namespace Gestao_Salas_Back
             services.AddDbContext<AgendamentoContext>(options => 
             { 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseLazyLoadingProxies();
             });
+
+            services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
+            services.AddScoped<IAgendamentoService, AgendamentoService>();
+
+            services.AddScoped<IRoomRepository, RoomRepository>();
+            //services.AddScoped<IRoomService, RoomService>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddControllers();
         }

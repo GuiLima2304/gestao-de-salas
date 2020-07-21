@@ -1,4 +1,5 @@
 ﻿using EFCore.Dominio;
+using EFCore.Dominio.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

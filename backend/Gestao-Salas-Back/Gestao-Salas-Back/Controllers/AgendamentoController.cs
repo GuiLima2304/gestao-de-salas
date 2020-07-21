@@ -2,46 +2,65 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Gestao_Salas_Back.Controllers.Base;
+using GestaoSalas.Application.Interfaces;
+using GestaoSalas.Application.Models.Inputs;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Gestao_Salas_Back.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AgendamentoController : ControllerBase
+    public class AgendamentoController : BaseController
     {
+
+        private readonly IAgendamentoService _service;
+        public AgendamentoController(IAgendamentoService service)
+        {
+            _service = service;
+        }
+
+
+        /// <summary>
+        /// Lista de Agendamentos
+        /// </summary>
+        /// <returns></returns>
         // GET: api/<AgendamentoController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var schedulings = _service.GetList();
+            return Ok(schedulings);
         }
 
         // GET api/<AgendamentoController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            return Ok(_service.Get(id));
         }
 
         // POST api/<AgendamentoController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] SchedulingInput schedulingInput)
         {
+            _service.AddNewScheduling(schedulingInput);
+            return Ok();
         }
 
         // PUT api/<AgendamentoController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] SchedulingInput schedulingInput)
         {
+            _service.UpdateScheduling(schedulingInput, id);
+            return Ok();
         }
 
         // DELETE api/<AgendamentoController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _service.DeleteScheduling(id);
+            return Ok();
         }
     }
 }
