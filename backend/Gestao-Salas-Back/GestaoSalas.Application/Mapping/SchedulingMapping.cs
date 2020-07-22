@@ -18,8 +18,8 @@ namespace GestaoSalas.Application.Mapping
                 Title = s.Titulo,
                 RoomId = s.IdSala,
                 StartDate = s.DataHoraInicio,
-                EndDate = s.DataHoraFim,
-                RoomName = s.Sala.Nome
+                EndDate = s.DataHoraFim
+                //RoomName = s.Sala.Nome
             };
         }
 

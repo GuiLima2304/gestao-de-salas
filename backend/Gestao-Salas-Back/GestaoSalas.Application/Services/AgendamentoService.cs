@@ -7,6 +7,7 @@ using GestaoSalas.Application.Models.Inputs;
 using GestaoSalas.Application.Models.Outputs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -32,18 +33,40 @@ namespace GestaoSalas.Application.Services
 
         }
 
+        private bool TimeBetween(DateTime dateTime, TimeSpan start, TimeSpan end) 
+        {
+            TimeSpan now = dateTime.TimeOfDay;
+
+            if(start < end)
+            {
+                return !(end < now && now < start);
+            }
+
+            return true;
+        }
+
         private void ValidateScheduling(Agendamento scheduling)
         {
 
+            var teste = scheduling.DataHoraInicio.Date;
+            var teste2 = scheduling.DataHoraFim.CompareTo(scheduling.DataHoraInicio);
+            var teste3 = scheduling.DataHoraInicio.Equals(scheduling.DataHoraFim);
+            var teste4 = scheduling.DataHoraInicio.TimeOfDay;
             // to do: verificar se a sala existe
 
-            var existScheduling = _repository.Exist(os =>
+            /*var existScheduling = _repository.Exist(os =>
             (os.IdSala == scheduling.IdSala) &&
             (os.DataHoraInicio > scheduling.DataHoraInicio || os.DataHoraInicio < scheduling.DataHoraInicio) &&
             (os.DataHoraInicio > scheduling.DataHoraFim || os.DataHoraFim < scheduling.DataHoraFim) &&
-            (scheduling.DataHoraFim > scheduling.DataHoraInicio));
+            (scheduling.DataHoraFim > scheduling.DataHoraInicio));*/
 
-            if (existScheduling)
+            var exist = _repository.Exist(existenteS => (existenteS.IdSala == scheduling.IdSala) && 
+            (scheduling.DataHoraInicio.Date == existenteS.DataHoraInicio.Date) && 
+            (scheduling.DataHoraInicio.TimeOfDay == existenteS.DataHoraInicio.TimeOfDay ) &&
+            (scheduling.DataHoraFim.TimeOfDay == existenteS.DataHoraFim.TimeOfDay)
+            );
+
+            if (exist)
             {
                 throw new Exception("Sala Ocupada");
             }
