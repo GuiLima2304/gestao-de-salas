@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GestaoSalas.Application.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -33,16 +34,23 @@ namespace Gestao_Salas_Back.Middlewares
 
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            ApiError json;
 
-            var json = new
+            switch (exception.GetBaseException())
             {
-                context.Response.StatusCode,
-                Message = "An error occurred whilst processing your request",
-                Detailed = exception
-            };
+                case ApiException ex:
+                    json = new ApiError(ex.Message, ex.Status);
+                    context.Response.StatusCode = ex.Status;
+                    break;
 
+                default:
+                    json = new ApiError(exception.Message, (int)HttpStatusCode.InternalServerError);
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    break;
+            }
+
+            context.Response.ContentType = "application/json";
+            
             return context.Response.WriteAsync(JsonConvert.SerializeObject(json));
         }
     }

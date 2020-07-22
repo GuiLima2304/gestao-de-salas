@@ -1,5 +1,6 @@
 ﻿using EFCore.Dominio;
 using EFCore.Dominio.Entities;
+using GestaoSalas.Application.Exceptions;
 using GestaoSalas.Application.Interfaces;
 using GestaoSalas.Application.Interfaces.Repositories;
 using GestaoSalas.Application.Mapping;
@@ -68,7 +69,7 @@ namespace GestaoSalas.Application.Services
 
             if (existScheduling)
             {
-                throw new Exception("Sala Ocupada");
+                throw new RoomBusyException("Sala Ocupada");
             }
         }
 
