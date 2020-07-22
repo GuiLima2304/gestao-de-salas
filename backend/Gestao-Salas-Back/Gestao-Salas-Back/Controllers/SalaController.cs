@@ -6,6 +6,8 @@ using EFCore.Dominio;
 using EFCore.Dominio.Entities;
 using EFCore.Repo;
 using Gestao_Salas_Back.Controllers.Base;
+using GestaoSalas.Application.Interfaces;
+using GestaoSalas.Application.Models.Inputs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gestao_Salas_Back.Controllers
@@ -13,74 +15,50 @@ namespace Gestao_Salas_Back.Controllers
     public class SalaController : BaseController
     {
 
-        public readonly AgendamentoContext _context;
+        public readonly ISalaService _service;
 
-        public SalaController(AgendamentoContext context)
+        public SalaController(ISalaService service)
         {
-            _context = context;
+            _service = service;
         }
 
         //GET api/salas
         [HttpGet]
-        public ActionResult Get()
+        public IActionResult Get()
         {
-            var listSalas = _context.Salas.ToList();
+
+            var listSalas = _service.GetList();
             return Ok(listSalas);
         }
 
         //GET api/sala/{id}
         [HttpGet("{id}")]
-        public ActionResult GetSala(int id)
+        public IActionResult GetSala(int id)
         {
-            var sala = _context.Salas
-                        .Where(s => s.Id.Equals(id))
-                        .ToList();
-
-            if(sala != null)
-            {
-                return Ok(sala);
-            } else
-            {
-                return NotFound();
-            }
+            return Ok(_service.Get(id));
 
         }
 
         //UPDATE api/sala/atualizar/{id}
         [HttpPut("{id}")]
-        public ActionResult PutSala(int id, Sala sala)
+        public IActionResult PutSala(int id, RoomInput room)
         {
-
-            var salaEncontrada = _context.Salas
-                           .Where(s => s.Id.Equals(id))
-                           .FirstOrDefault();
-
-            if(salaEncontrada != null)
-            {
-                salaEncontrada.Nome = sala.Nome;
-                salaEncontrada.Descricao = sala.Descricao;
-
-                _context.SaveChanges();
-            } else
-            {
-                return NotFound();
-            }
-
+            _service.UpdateRoom(room, id);
             return Ok();
         }
 
         //DELETE 
-        [HttpDelete]
-        public ActionResult Delete(int id)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
-            var sala = _context.Salas
-                               .Where(s => s.Id == id)
-                               .Single();
+            _service.DeleteRoom(id);
+            return Ok();
+        }
 
-            _context.Salas.Remove(sala);
-
-            _context.SaveChanges();
-
+        [HttpPost]
+        public IActionResult Post(RoomInput room)
+        {
+            _service.AddNewRoom(room);
             return Ok();
         }
     }

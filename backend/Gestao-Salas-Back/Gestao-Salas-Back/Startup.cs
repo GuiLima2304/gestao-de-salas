@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EFCore.Dominio;
 using EFCore.Repo;
 using EFCore.Repo.Repositories;
+using Gestao_Salas_Back.Middlewares;
 using GestaoSalas.Application.Interfaces;
 using GestaoSalas.Application.Interfaces.Repositories;
 using GestaoSalas.Application.Services;
@@ -42,15 +43,17 @@ namespace Gestao_Salas_Back
             services.AddScoped<IAgendamentoService, AgendamentoService>();
 
             services.AddScoped<IRoomRepository, RoomRepository>();
-            //services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<ISalaService, SalaService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddExceptionHandlerMiddleware();
 
             services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -62,6 +65,8 @@ namespace Gestao_Salas_Back
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseExceptionHandlerMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
