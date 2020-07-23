@@ -4,6 +4,7 @@ import React from 'react';
 import Home from './pages/Home';
 import Sala from './pages/Sala';
 
+
 const Routes = () => {
     return (
         <BrowserRouter>

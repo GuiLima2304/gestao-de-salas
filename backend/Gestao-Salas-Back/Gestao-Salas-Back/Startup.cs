@@ -10,6 +10,7 @@ using GestaoSalas.Application.Interfaces;
 using GestaoSalas.Application.Interfaces.Repositories;
 using GestaoSalas.Application.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,15 @@ namespace Gestao_Salas_Back
 
             services.AddExceptionHandlerMiddleware();
 
+            services.AddCors(config => {
+                var policy = new CorsPolicy();
+                policy.Headers.Add("*");
+                policy.Methods.Add("*");
+                policy.Origins.Add("*");
+                policy.SupportsCredentials = true;
+                config.AddPolicy("policy", policy);
+            });
+
             services.AddControllers();
         }
 
@@ -65,6 +75,12 @@ namespace Gestao_Salas_Back
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(option => {
+                option.AllowAnyOrigin();
+                option.AllowAnyHeader();
+                option.AllowAnyMethod();
+             });
 
             app.UseExceptionHandlerMiddleware();
 
