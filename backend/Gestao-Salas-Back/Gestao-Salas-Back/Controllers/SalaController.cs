@@ -22,6 +22,10 @@ namespace Gestao_Salas_Back.Controllers
             _service = service;
         }
 
+        /// <summary>
+        /// Get de salas
+        /// </summary>
+        /// <returns></returns>
         //GET api/salas
         [HttpGet]
         public IActionResult Get()
@@ -31,6 +35,11 @@ namespace Gestao_Salas_Back.Controllers
             return Ok(listSalas);
         }
 
+        /// <summary>
+        /// Sala especifica
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         //GET api/sala/{id}
         [HttpGet("{id}")]
         public IActionResult GetSala(int id)
@@ -39,6 +48,12 @@ namespace Gestao_Salas_Back.Controllers
 
         }
 
+        /// <summary>
+        /// update de sala
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="room"></param>
+        /// <returns></returns>
         //UPDATE api/sala/atualizar/{id}
         [HttpPut("{id}")]
         public IActionResult PutSala(int id, RoomInput room)
@@ -47,6 +62,11 @@ namespace Gestao_Salas_Back.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// delete de sala
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         //DELETE 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
@@ -55,6 +75,11 @@ namespace Gestao_Salas_Back.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// nova sala
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Post(RoomInput room)
         {

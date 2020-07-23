@@ -32,6 +32,11 @@ namespace Gestao_Salas_Back.Controllers
             return Ok(schedulings);
         }
 
+        /// <summary>
+        /// agendamento especifico
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/<AgendamentoController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -39,6 +44,11 @@ namespace Gestao_Salas_Back.Controllers
             return Ok(_service.Get(id));
         }
 
+        /// <summary>
+        /// novo agendamento
+        /// </summary>
+        /// <param name="schedulingInput"></param>
+        /// <returns></returns>
         // POST api/<AgendamentoController>
         [HttpPost]
         public IActionResult Post([FromBody] SchedulingInput schedulingInput)
@@ -47,6 +57,12 @@ namespace Gestao_Salas_Back.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// update de agendamento
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="schedulingInput"></param>
+        /// <returns></returns>
         // PUT api/<AgendamentoController>/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] SchedulingInput schedulingInput)
@@ -55,6 +71,11 @@ namespace Gestao_Salas_Back.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// deletar um agendamento
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE api/<AgendamentoController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
